@@ -1,0 +1,251 @@
+<html>
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <meta charset="UTF-8"/>
+    <style type="text/css">
+
+    input.form-control,select.form-select{
+    width: 95%;
+    margin: 10px;
+    }
+
+    div#back_tab{
+    background-color: rgb(100,100,100);
+    border-radius: 20px;
+    padding: 2.5%;
+    }
+
+    button.buttons{
+    border-radius: 5px;
+    margin-bottom: 20px;
+    width: 30%;
+    }
+
+    button#signup_btn,button#signin_btn{
+    color: white;
+    font-size: 18px;
+    background-color: rgb(80,200,0);
+    border: 8px solid rgb(80,200,0);
+    }
+
+    button#signup_btn:hover,button#signin_btn:hover{
+    background-color: rgb(70,190,0);
+    border: 8px solid rgb(70,190,0);
+    }
+
+    button#home_btn{
+    color: white;
+    font-size: 18px;
+    background-color: rgb(250,200,0);
+    border: 8px solid rgb(250,200,0);
+    }
+
+    button#home_btn:hover{
+    background-color: rgb(240,190,0);
+    border: 8px solid rgb(240,190,0);
+    }
+
+    .col-form-label{
+    color: white;
+    font-size: 19px;
+    margin-top: 2%;
+    margin-left: 70%;
+    }
+
+    div#f3{
+    pattern="/[^\x00-\x7F]/";
+    }
+
+    </style>
+    <div class="container-fluid">
+        <div class="row" style="background-color: rgb(76,76,76)">
+        <div class="col"></div>
+        <div class="col text-center">
+        <h1 style="color: rgb(250,80,110);margin-top: 5px"><b>Wind Market </b><i class="bi bi-cloud-fog2-fill"></i></h1>
+        </div>
+        <div class="col"></div>
+        </div>
+    </div>
+</head>
+  <body>
+      <div class="container text-center">
+          <div class="row">
+          <div class="col-1">
+          </div>
+          <div id="back_tab" class="col-10">
+
+      <form id="socket" action="home" method="POST">
+<div id="F0" class="row">
+          <div class="col text-end">
+          <label for="f0" class="col-form-label">Tên:</label>
+          </div>
+          <div class="col">
+          <input id="f0" class="form-control" type="text" name="name" placeholder="tên người dùng">
+          </div>
+          <div class="col">
+          </div>
+</div>
+<div id="F1" class="row">
+          <div class="col text-end">
+          <label for="f1" class="col-form-label">Tuổi:</label>
+          </div>
+          <div class="col">
+          <input id="f1" class="form-control" type="number" name="age" placeholder="tuổi của bạn">
+          </div>
+          <div class="col">
+          </div>
+</div>
+<div id="F2" class="row">
+         <div class="col text-end">
+         <label for="f2" class="col-form-label">Địa chỉ:</label>
+         </div>
+         <div class="col">
+         <input id="f2" class="form-control" type="text" name="address" placeholder="địa chỉ (số nhà,phường,tỉnh)">
+         </div>
+         <div class="col">
+         </div>
+</div>
+<div id="F3" class="row">
+         <div class="col text-end">
+         <label for="f3" class="col-form-label">Email:</label>
+         </div>
+         <div class="col">
+         <input id="f3" class="form-control" type="email" name="email" placeholder="địa chỉ email">
+         </div>
+         <div class="col">
+         </div>
+</div>
+<div id="F4" class="row">
+         <div class="col text-end">
+         <label for="f4" class="col-form-label">SĐT:</label>
+         </div>
+         <div class="col">
+         <input id="f4" class="form-control" type="number" name="number" placeholder="số điện thoại nhận hàng">
+         </div>
+         <div class="col">
+         </div>
+</div>
+<div id="F5" class="row">
+         <div class="col text-end">
+         <label for="f5" class="col-form-label">Mật khẩu:</label>
+         </div>
+         <div class="col">
+         <input id="f5" class="form-control" type="password" name="password" placeholder="nhập mật khẩu">
+         </div>
+         <div class="col">
+         </div>
+</div>
+
+                <input id="action" type="hidden" name="action">
+
+      </form>
+      <p id="caution"></p><br>
+      <button id="signin_btn" type="button" onclick="signIn()" class="buttons">Đăng Nhập</button><br>
+      <button id="signup_btn" type="button" onclick="signUp()" class="buttons">Đăng Ký</button><br>
+      <button id="home_btn" type="button" onclick="home()" class="buttons">Trang Chủ</button>
+      </div>
+      </div>
+      <div class="col-1">
+      </div>
+      </div>
+      <script>
+let parameter = new URLSearchParams(window.location.search);
+
+  let action = parameter.get("action");
+  let notify = document.getElementById("caution");
+
+  let st = "";
+  if(parameter.has("state")){
+  st = parameter.get("state");
+  }
+
+
+   if(action=="signup"){
+       //deactivate sign in button
+      document.getElementById("signin_btn").style.display="none";
+
+   }else if(action=="signin"){
+       //deactivate sign up button
+      document.getElementById("signup_btn").style.display="none";
+
+      document.getElementById("F0").innerHTML="";
+      document.getElementById("F1").innerHTML="";
+      document.getElementById("F2").innerHTML="";
+      document.getElementById("F4").innerHTML="";
+   }
+
+if(st!=""){
+   if(st=="signup0"){
+     notify.style.color="rgb(80,400,0)";
+     notify.innerHTML = "Đăng ký tài khoản thành công! <a href='/wmarket/sign.html?action=signin'>đăng nhập</a>";
+   }else if(st=="signup3"){
+     notify.style.color="red";
+     notify.innerHTML = "Email đã tồn tại!";
+   }else if(st=="signup4"){
+     notify.style.color="red";
+     notify.innerHTML = "Số điện thoại đã tồn tại!";
+   }else if(st=="signin2"){
+     notify.style.color="red";
+     notify.innerHTML = "Tài khoản không tồn tại! <a href='/wmarket/sign.html?action=signup'>đăng ký</a>";
+   }else if(st=="signin3"){
+     notify.style.color="red";
+     notify.innerHTML = "Mật khẩu không đúng! <a href=''>quên mật khẩu?</a>";
+   }else{
+     notify.style.color="red";
+     notify.innerHTML = "Dữ liệu không hợp lệ!";
+   }
+}
+   if(parameter.has("email")){
+     document.getElementById("f3").value=parameter.get("email");
+   }
+
+
+      function signUp(){
+
+      let form0 = document.getElementById("f0").value;//ten
+      let form1 = document.getElementById("f1").value;//tuoi
+      let form2 = document.getElementById("f2").value;//dia chi
+      let form3 = document.getElementById("f3").value;//email
+      let form4 = document.getElementById("f4").value;//number
+      let form5 = document.getElementById("f5").value;//password
+
+      document.getElementById("action").value = "signup";
+
+      if(form0 != "" && form1 != "" && form2 != "" && form3 != "" && form4 != "" && form5 != ""){
+
+        for(let i=0;i<form0.length;++i){
+           if(form0[i]!=" "){
+              for(let i=0;i<form2.length;++i){
+                 if(form2[i]!=" "){
+                    document.getElementById("socket").submit();
+                 }
+              }
+           }
+        }
+
+      }
+      notify.innerHTML=" Các mục nhập không được trống";
+      }
+
+      function signIn(){
+
+      let form3 = document.getElementById("f3").value;//email
+      let form5 = document.getElementById("f5").value;//password
+
+      document.getElementById("action").value = "signin";
+
+      if(form3 != "" && form5 != ""){
+      document.getElementById("socket").submit();
+      }else{
+      notify.style.color="red";
+      notify.innerHTML="Vui lòng nhập đủ";
+      }
+      }
+
+          function home(){
+           window.location.assign("home");
+          }
+      </script>
+  </body>
+</html>
